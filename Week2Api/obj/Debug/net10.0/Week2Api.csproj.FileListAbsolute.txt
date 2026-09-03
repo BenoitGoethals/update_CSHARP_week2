@@ -31,3 +31,7 @@
 /Users/benoit/RiderProjects/update_CSHARP_week2/Week2Api/obj/Debug/net10.0/Week2Api.pdb
 /Users/benoit/RiderProjects/update_CSHARP_week2/Week2Api/obj/Debug/net10.0/Week2Api.genruntimeconfig.cache
 /Users/benoit/RiderProjects/update_CSHARP_week2/Week2Api/obj/Debug/net10.0/ref/Week2Api.dll
+/Users/benoit/RiderProjects/update_CSHARP_week2/Week2Api/obj/Debug/net10.0/Week2Api.sourcelink.json
+/Users/benoit/RiderProjects/update_CSHARP_week2/Week2Api/bin/Debug/net10.0/Microsoft.EntityFrameworkCore.dll
+/Users/benoit/RiderProjects/update_CSHARP_week2/Week2Api/bin/Debug/net10.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+/Users/benoit/RiderProjects/update_CSHARP_week2/Week2Api/bin/Debug/net10.0/Microsoft.EntityFrameworkCore.InMemory.dll

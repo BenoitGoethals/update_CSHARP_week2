@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Week2Api.Models;
 using Week2Api.Services;
@@ -6,56 +7,78 @@ namespace Week2Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class BooksController : ControllerBase
+[Produces("application/json")]
+public class BooksController(IBookService bookService) : ControllerBase
 {
-    private readonly BookStore _store;
-
-    public BooksController(BookStore store)
-    {
-        _store = store;
-    }
-
     // GET: api/books
     [HttpGet]
-    public ActionResult<IEnumerable<Book>> GetAll()
+    [ProducesResponseType(typeof(IEnumerable<Book>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult<IEnumerable<Book>>> GetAll(CancellationToken cancellationToken)
     {
-        return Ok(_store.GetAll());
+        var books = await bookService.GetAllAsync(cancellationToken);
+        return Ok(books);
     }
 
     // GET: api/books/5
     [HttpGet("{id:int}")]
-    public ActionResult<Book> GetById(int id)
+    [ProducesResponseType(typeof(Book), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult<Book>> GetById(int id, CancellationToken cancellationToken)
     {
-        var book = _store.Get(id);
+        var book = await bookService.GetByIdAsync(id, cancellationToken);
         if (book is null)
             return NotFound();
 
         return Ok(book);
     }
 
-    // POST: api/books
+    // POST: api/books   (requires Admin)
     [HttpPost]
-    public ActionResult<Book> Create(Book book)
+    [Authorize(Roles = "Admin")]
+    [ProducesResponseType(typeof(Book), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult<Book>> Create(Book book, CancellationToken cancellationToken)
     {
-        var created = _store.Add(book);
+        // [ApiController] auto-returns 400 for an invalid model before we get here.
+        var created = await bookService.AddAsync(book, cancellationToken);
         return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
     }
 
-    // PUT: api/books/5
+    // PUT: api/books/5   (requires Admin)
     [HttpPut("{id:int}")]
-    public IActionResult Update(int id, Book book)
+    [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Update(int id, Book book, CancellationToken cancellationToken)
     {
-        if (!_store.Update(id, book))
+        var updated = await bookService.UpdateAsync(id, book, cancellationToken);
+        if (!updated)
             return NotFound();
 
         return NoContent();
     }
 
-    // DELETE: api/books/5
+    // DELETE: api/books/5   (requires Admin)
     [HttpDelete("{id:int}")]
-    public IActionResult Delete(int id)
+    [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        if (!_store.Delete(id))
+        var deleted = await bookService.DeleteAsync(id, cancellationToken);
+        if (!deleted)
             return NotFound();
 
         return NoContent();
