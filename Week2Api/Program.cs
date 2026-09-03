@@ -3,13 +3,17 @@ using Microsoft.EntityFrameworkCore;
 using Week2Api.Auth;
 using Week2Api.Data;
 using Week2Api.Middleware;
+using Week2Api.OpenApi;
 using Week2Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddOpenApi(options =>
+{
+    options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
+});
 builder.Services.AddControllers();
 
 // EF Core with the in-memory database provider.
@@ -41,6 +45,11 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/openapi/v1.json", "Week2Api v1");
+        options.RoutePrefix = "swagger"; // UI served at /swagger
+    });
 }
 
 app.UseHttpsRedirection();

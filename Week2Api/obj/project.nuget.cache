@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "+SyD8n87SSo=",
+  "dgSpecHash": "nicTR5PUlYw=",
   "success": true,
   "projectFilePath": "/Users/benoit/RiderProjects/update_CSHARP_week2/Week2Api/Week2Api.csproj",
   "expectedPackageFiles": [
@@ -9,7 +9,8 @@
     "/Users/benoit/.nuget/packages/microsoft.entityframeworkcore.abstractions/10.0.11/microsoft.entityframeworkcore.abstractions.10.0.11.nupkg.sha512",
     "/Users/benoit/.nuget/packages/microsoft.entityframeworkcore.analyzers/10.0.11/microsoft.entityframeworkcore.analyzers.10.0.11.nupkg.sha512",
     "/Users/benoit/.nuget/packages/microsoft.entityframeworkcore.inmemory/10.0.11/microsoft.entityframeworkcore.inmemory.10.0.11.nupkg.sha512",
-    "/Users/benoit/.nuget/packages/microsoft.openapi/2.7.5/microsoft.openapi.2.7.5.nupkg.sha512"
+    "/Users/benoit/.nuget/packages/microsoft.openapi/2.7.5/microsoft.openapi.2.7.5.nupkg.sha512",
+    "/Users/benoit/.nuget/packages/swashbuckle.aspnetcore.swaggerui/10.2.3/swashbuckle.aspnetcore.swaggerui.10.2.3.nupkg.sha512"
   ],
   "logs": []
 }

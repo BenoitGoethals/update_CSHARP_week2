@@ -6,7 +6,7 @@ using Week2Api.Services;
 namespace Week2Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/books")]
 [Produces("application/json")]
 public class BooksController(IBookService bookService) : ControllerBase
 {
